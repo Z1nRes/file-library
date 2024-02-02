@@ -3,7 +3,7 @@ import AuthService from "../services/AuthService";
 
 export default class Store{
     isAuth: boolean = false;
-    error: string = '';
+    error = {};
     constructor() {
         makeAutoObservable(this);
     }
@@ -14,7 +14,6 @@ export default class Store{
     async login(login: string, password: string){
         try {
             const response = await AuthService.login(login, password);
-            if (response)
             localStorage.setItem('token', response.data.token);
             this.setAuth(true);
         } catch (e) {

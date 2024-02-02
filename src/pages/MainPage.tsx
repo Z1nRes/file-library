@@ -3,7 +3,7 @@ import React from 'react';
 const MainPage = () => {
     return (
         <>
-            <div>
+            <div className="px-8 py-4">
                 MainPage
             </div>
         </>

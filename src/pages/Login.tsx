@@ -1,16 +1,7 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import LoginForm from "../components/LoginForm";
-import {Context} from "../index";
-import { Navigate } from "react-router"
-import {observer} from "mobx-react-lite";
 
 const Login = () => {
-    const {store} = useContext(Context);
-
-    if (store.isAuth) {
-        return <Navigate to="/"/>
-    }
-
     return (
         <>
             <div className="px-8 py-4 flex justify-center mt-56">
@@ -23,4 +14,4 @@ const Login = () => {
     );
 };
 
-export default observer(Login);
+export default Login;

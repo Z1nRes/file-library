@@ -1,10 +1,7 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import {Link} from 'react-router-dom';
-import {Context} from "../index";
-import {observer} from "mobx-react-lite";
 
 const Header = () => {
-    const {store} = useContext(Context);
     return (
         <header className="bg-slate-800 px-8 py-4">
             <>
@@ -12,30 +9,33 @@ const Header = () => {
                     <div>
                         <Link to="/">
                             <button
-                                className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">MainPage
+                                className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Главная страница
                             </button>
                         </Link>
                     </div>
                     <div>
-                        { !store.isAuth ?
+                        { !localStorage.getItem('token') ?
                             <div>
                                 <Link to="/login">
                                     <button
-                                        className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Login
+                                        className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Вход
                                     </button>
                                 </Link>
                                 <Link to="/register">
                                     <button
-                                        className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Sign
-                                        up
+                                        className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Регистрация
                                     </button>
                                 </Link>
                             </div>
                             :
                             <div>
                                 <button
-                                    onClick={() => store.logout()}
-                                    className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Logout
+                                    onClick={() => {
+                                            localStorage.removeItem('token');
+                                            window.location.reload();
+                                        }
+                                    }
+                                    className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Выход
                                 </button>
                             </div>
                         }
@@ -46,4 +46,4 @@ const Header = () => {
     );
 };
 
-export default observer(Header);
+export default Header;

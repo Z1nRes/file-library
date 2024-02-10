@@ -1,7 +1,7 @@
-import React, {FC, useContext, useState} from 'react';
-import {Context} from "../index";
+import React, {FC, SyntheticEvent, useState} from 'react';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faToggleOff, faToggleOn, IconDefinition} from "@fortawesome/free-solid-svg-icons";
+import {useLoginRequest} from "../request";
 
 const LoginForm: FC = () => {
     const [login, setLogin] = useState<string>('');
@@ -10,7 +10,6 @@ const LoginForm: FC = () => {
     const [passwordDirty, setPasswordDirty] = useState<boolean>(false);
     const [loginError, setLoginError] = useState<string>("Поле Login не может быть пустым!");
     const [passwordError, setPasswordError] = useState<string>("Поле Password не может быть пустым!");
-    const {store} = useContext(Context);
 
     const [passTypeChange, setPassTypeChange] = useState<string>('password');
     const [showIconChange, setShowIconChange] = useState<IconDefinition>(faToggleOff);
@@ -44,9 +43,16 @@ const LoginForm: FC = () => {
         }
     }
 
+    const {mutate} = useLoginRequest();
+
+    const submitHandler = (e: SyntheticEvent) => {
+        e.preventDefault();
+        mutate({login, password});
+    }
+
     return (
         <>
-            <form className="w-full max-w-sm">
+            <form className="w-full max-w-sm" onSubmit={submitHandler}>
                 <div className="md:flex md:items-center mb-6">
                     <div className="md:w-1/3">
                         <label className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4"
@@ -91,9 +97,8 @@ const LoginForm: FC = () => {
                     <div className="md:w-1/3"></div>
                     <div className="md:w-2/3 flex justify-between">
                         <button
-                            onClick={() => store.login(login, password)}
                             className="shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
-                            type="button">
+                            type="submit">
                             Login
                         </button>
                         <button

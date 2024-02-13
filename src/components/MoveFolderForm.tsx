@@ -11,7 +11,7 @@ const MoveFolderForm = ({folder, setOpen, parentId, prevFolderId}: any) => {
         moveFolder({parentId: parentFolderId, name: folder.name, id: folder.id})
         isSuccess ? setOpen(false) : setOpen(true);
     }
-    // @ts-ignore
+
     return (
         <>
             <h2 className="text-center text-4xl font-bold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-3xl mb-3">Переместить папку - {folder.name}?</h2>

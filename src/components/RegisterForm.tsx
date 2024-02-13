@@ -62,11 +62,11 @@ const RegisterForm: FC = () => {
                     </div>
                     <div className="md:w-2/3">
                         <input
-                            onChange={e => {
+                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                                 setLogin(e.target.value);
                                 requiredHandler(e)
                             }}
-                            onBlur={e => blurHandler(e)}
+                            onBlur={(e: React.FocusEvent<HTMLInputElement>) => blurHandler(e)}
                             value={login}
                             name="login"
                             className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
@@ -82,11 +82,11 @@ const RegisterForm: FC = () => {
                     </div>
                     <div className="md:w-2/3">
                         <input
-                            onChange={e => {
+                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                                 setPassword(e.target.value);
                                 requiredHandler(e)
                             }}
-                            onBlur={e => blurHandler(e)}
+                            onBlur={(e: React.FocusEvent<HTMLInputElement>) => blurHandler(e)}
                             value={password}
                             name="password"
                             className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
@@ -97,7 +97,8 @@ const RegisterForm: FC = () => {
                     <div className="md:w-1/3"></div>
                     <div className="md:w-2/3 flex justify-between">
                         <button
-                            className="shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
+                            disabled={login.length === 0 || password.length === 0}
+                            className="shadow disabled:bg-gray-500 bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
                             type="submit">
                             Sign Up
                         </button>

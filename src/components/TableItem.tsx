@@ -2,16 +2,14 @@ import React, {useState} from 'react';
 import Modal from "./Modal";
 import AgreeDelete from "./AgreeDelete";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faPenToSquare, faTrashCan} from "@fortawesome/free-solid-svg-icons";
+import {faPenToSquare, faTrashCan, faArrowsUpDownLeftRight} from "@fortawesome/free-solid-svg-icons";
 import FormEditFolder from "./FormEditFolder";
-import {useQueryClient} from "@tanstack/react-query";
+import MoveFolderForm from "./MoveFolderForm";
 
-const TableItem = ({ folder, setFolderId }: any) => {
+const TableItem = ({ folder, setFolderId, parentFolderId, prevFolderId, setPrevFolderId }: any) => {
     const [openDelete, setOpenDelete] = useState<boolean>(false);
     const [openEdit, setOpenEdit] = useState<boolean>(false);
-
-    // const queryClient = useQueryClient();
-
+    const [openMove, setOpenMove] = useState<boolean>(false);
 
     return (
         <>
@@ -21,14 +19,22 @@ const TableItem = ({ folder, setFolderId }: any) => {
                     className={`col-start-3 ${folder.type === "folder" ? "cursor-pointer hover:text-blue-700" : ""}`}
                     onClick={() => {
                         if (folder.type === "folder") {
+                            setPrevFolderId([...prevFolderId, parentFolderId]);
                             setFolderId(folder.id);
-                            // queryClient.invalidateQueries({queryKey: ['folders']});
                         }
                     }}
 
                 >{folder.type === "folder" ? folder.name : folder.file.name}</div>
                 <div className="col-start-5">{folder.type}</div>
                 <div className="col-start-6 flex justify-end">
+                    {
+                        folder.type === "folder" ?
+                            <FontAwesomeIcon
+                                className="py-2 px-3 cursor-pointer hover:text-blue-700"
+                                onClick={() => setOpenMove(true)}
+                                icon={faArrowsUpDownLeftRight} />
+                            : false
+                    }
                     {
                         folder.type === "folder" ?
                             <FontAwesomeIcon
@@ -49,6 +55,9 @@ const TableItem = ({ folder, setFolderId }: any) => {
             </Modal>
             <Modal open={openEdit} onClose={() => setOpenEdit(false)}>
                 <FormEditFolder folder={folder} setOpen={setOpenEdit} />
+            </Modal>
+            <Modal open={openMove} onClose={() => setOpenMove(false)}>
+                <MoveFolderForm folder={folder} setOpen={setOpenMove} parendId={parentFolderId} prevFolderId={prevFolderId}/>
             </Modal>
         </>
     );

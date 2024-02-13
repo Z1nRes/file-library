@@ -1,10 +1,5 @@
 import React from 'react';
-
-interface IPropsModal {
-    open: boolean,
-    onClose: () => void,
-    children: React.ReactNode
-}
+import {IPropsModal} from "../models/props";
 
 const Modal: React.FC<IPropsModal> = ({open, onClose, children}) => {
     return (
@@ -14,7 +9,7 @@ const Modal: React.FC<IPropsModal> = ({open, onClose, children}) => {
         >
             <div
                 className={`bg-white rounded-lg shadow p-6 pt-12 transition-all max-w-md ${open ? "scale-100 opacity-100" : "scale-110 opacity-0"}`}
-                onClick={(e) => e.stopPropagation()}
+                onClick={(e: React.MouseEvent<HTMLDivElement>) => e.stopPropagation()}
             >
                 <button
                     className="absolute top-2 right-2 py-1 px-2 border border-neutral-200 rounded-md text-gray-400 bg-white hover:bg-gray-50 hover:text-gray-600"

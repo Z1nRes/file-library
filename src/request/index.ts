@@ -1,12 +1,12 @@
 import api from "../http";
-import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
+import {QueryClient, useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
 import {IAuthResponse} from "../models/response/AuthResponse";
 import {IFolderCreateResponse, IFolderGetResponse} from "../models/response/FolderResponse";
-import {useNavigate} from "react-router-dom";
+import {NavigateFunction, useNavigate} from "react-router-dom";
 
 // auth requests
 const useLoginRequest = () => {
-    const navigate = useNavigate();
+    const navigate: NavigateFunction = useNavigate();
     const callback = async (port: {login: string , password: string}) => {
         return await api.post<IAuthResponse>('auth/login', port)
             .then(res => {
@@ -21,7 +21,7 @@ const useLoginRequest = () => {
 }
 
 const useRegisterRequest = (login: string , password: string) => {
-    const navigate = useNavigate();
+    const navigate: NavigateFunction = useNavigate();
 
     const callback = async () => {
         return await api.post<IAuthResponse>('auth/register', {login, password})
@@ -47,7 +47,7 @@ const useGetFolderRequest = (id: string) => {
 }
 
 const useCreateFolderRequest = () => {
-    const refetchClient = useQueryClient();
+    const refetchClient: QueryClient = useQueryClient();
 
     const callback = async (port: {parentId: string, name: string}) => {
         return await api.post<IFolderCreateResponse>('drive/folder', port)
@@ -57,7 +57,7 @@ const useCreateFolderRequest = () => {
 }
 
 const useDeleteFolderRequest = () => {
-    const refetchClient = useQueryClient();
+    const refetchClient: QueryClient = useQueryClient();
 
     const callback = async (id: string) => {
         return await api.delete(`drive/folder/${id}`)
@@ -67,7 +67,7 @@ const useDeleteFolderRequest = () => {
 }
 
 const useEditFolderRequest = () => {
-    const refetchClient = useQueryClient();
+    const refetchClient: QueryClient = useQueryClient();
 
     const callback = async (port: {parentId: string, name: string, id: string}) => {
         const {parentId, name} = port;
@@ -80,7 +80,7 @@ const useEditFolderRequest = () => {
 
 //file requests
 const useLoadFileRequest = () => {
-    const refetchClient = useQueryClient();
+    const refetchClient: QueryClient = useQueryClient();
 
     const callback = async (port: {folderId: string, file: any}) => {
         return await api.post(`drive/files`, port, { headers: {
@@ -92,9 +92,8 @@ const useLoadFileRequest = () => {
 }
 
 const useDeleteFileRequest = () => {
-    const refetchClient = useQueryClient();
+    const refetchClient: QueryClient = useQueryClient();
     const callback = async (id:string) => {
-
         return await api.delete(`drive/files/${id}`)
     }
 
@@ -109,5 +108,5 @@ export {
     useDeleteFolderRequest,
     useEditFolderRequest,
     useLoadFileRequest,
-    useDeleteFileRequest
+    useDeleteFileRequest,
 }

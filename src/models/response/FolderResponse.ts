@@ -5,11 +5,11 @@ interface IChildren
     "type": string
 }
 
-interface IFolderData
+export interface IFolderData
 {
     "id": string,
     "name": string,
-    "children": [IChildren] | []
+    "children"?: [IChildren] | []
 }
 
 export interface IFolderGetResponse

@@ -1,7 +1,7 @@
 import React, {SyntheticEvent, useState} from 'react';
 import {useCreateFolderRequest} from "../request";
 
-const CreateFolderForm = ({created, setCreated, setOpen}: any) => {
+const CreateFolderForm = ({created, setCreated, setOpen, parentFolderId}: any) => {
     const [name, setName] = useState<string>('');
     const [nameDirty, setNameDirty] = useState<boolean>(false);
     const [nameError, setNameError] = useState<string>('Поле "Имя" не может быть пустым!');
@@ -22,7 +22,7 @@ const CreateFolderForm = ({created, setCreated, setOpen}: any) => {
 
     const submitHandler = (e: SyntheticEvent) => {
         e.preventDefault();
-        mutate({parentId: "root", name: name});
+        mutate({parentId: parentFolderId, name: name});
         setCreated(true);
         setTimeout(() => {
             setName('');
@@ -38,15 +38,16 @@ const CreateFolderForm = ({created, setCreated, setOpen}: any) => {
                 name="name"
                 className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-2/3 py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
                 value={name}
-                onBlur={e => blurHandler(e)}
-                onChange={e => {
+                onBlur={(e: React.FocusEvent<HTMLInputElement>) => blurHandler(e)}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                     setName(e.target.value);
                     requiredHandler(e)
                 }}
             />
 
             <button
-                className="shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded ms-3"
+                disabled={name.length === 0}
+                className="shadow disabled:bg-gray-500 bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded ms-3"
                 type="submit"
             >
                 Создать

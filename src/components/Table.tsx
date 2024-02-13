@@ -1,17 +1,40 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState} from 'react';
 import TableItem from "./TableItem";
 import {useGetFolderRequest} from "../request";
-import {useQueryClient} from "@tanstack/react-query";
+import {IPropsTable} from "../models/props";
 
-const Table = () => {
-    const [folderId, setFolderId] = useState('root');
+const Table: React.FC<IPropsTable> = ({setRootFolder, setPrevFolder, onChange}) => {
+    const [folderId, setFolderId] = useState<string>('root');
+    const [prevFolderId, setPrevFolderId] = useState<string[]>(['root']);
 
-    const {data} = useGetFolderRequest(folderId);
-
+    const {data, refetch} = useGetFolderRequest(folderId);
 
     useEffect(() => {
-        console.log(folderId)
+        setTimeout(() => {
+            if (data) { setFolderId(data.id)}
+            refetch();
+            onChange(data?.id);
+        }, )
+    }, [data]);
+
+    useEffect(() => {
+        onChange(folderId);
+        refetch();
     }, [folderId]);
+
+    useEffect(() => {
+        setFolderId("root");
+        setPrevFolderId([]);
+        onChange(folderId);
+        refetch();
+    }, [setRootFolder]);
+
+    useEffect(() => {
+        setPrevFolderId([...prevFolderId.slice(0, prevFolderId.length - 1)])
+        setFolderId(prevFolderId[prevFolderId.length - 1]);
+        onChange(folderId);
+        refetch();
+    }, [setPrevFolder]);
 
     return (
         <>
@@ -25,7 +48,7 @@ const Table = () => {
                 </div>
 
                 {
-                    data?.children?.map(folder => <TableItem key={folder.id} folder={folder} setFolderId={setFolderId}/> )
+                    data?.children?.map(folder => <TableItem key={folder.id} folder={folder} setFolderId={setFolderId} parentFolderId={folderId} prevFolderId={prevFolderId} setPrevFolderId={setPrevFolderId} /> )
                 }
             </div>
         </>

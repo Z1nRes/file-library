@@ -1,8 +1,14 @@
 import api from "../http";
 import {QueryClient, useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
 import {IAuthResponse} from "../models/response/AuthResponse";
-import {IFolderCreateResponse, IFolderGetResponse} from "../models/response/FolderResponse";
+import {
+    IFolderCreateResponse,
+    IFolderDeleteResponse,
+    IFolderGetResponse,
+    IFolderPatchResponse
+} from "../models/response/FolderResponse";
 import {NavigateFunction, useNavigate} from "react-router-dom";
+import {IFileDeleteResponse, IFileLoadResponse} from "../models/response/FileResponse";
 
 // auth requests
 const useLoginRequest = () => {
@@ -60,7 +66,7 @@ const useDeleteFolderRequest = () => {
     const refetchClient: QueryClient = useQueryClient();
 
     const callback = async (id: string) => {
-        return await api.delete(`drive/folder/${id}`)
+        return await api.delete<IFolderDeleteResponse>(`drive/folder/${id}`)
     }
 
     return useMutation({mutationFn: callback, mutationKey: ['createFolder'], onSuccess: () => refetchClient.invalidateQueries({queryKey: ['folders']})})
@@ -72,7 +78,7 @@ const useEditFolderRequest = () => {
     const callback = async (port: {parentId: string, name: string, id: string}) => {
         const {parentId, name} = port;
 
-        return await api.patch(`drive/folder/${port.id}`, {parentId, name})
+        return await api.patch<IFolderPatchResponse>(`drive/folder/${port.id}`, {parentId, name})
     }
 
     return useMutation({mutationFn: callback, mutationKey: ['createFolder'], onSuccess: () => refetchClient.invalidateQueries({queryKey: ['folders']})})
@@ -83,7 +89,7 @@ const useLoadFileRequest = () => {
     const refetchClient: QueryClient = useQueryClient();
 
     const callback = async (port: {folderId: string, file: any}) => {
-        return await api.post(`drive/files`, port, { headers: {
+        return await api.post<IFileLoadResponse>(`drive/files`, port, { headers: {
                 'Content-Type': 'multipart/form-data'
             }})
     }
@@ -94,7 +100,7 @@ const useLoadFileRequest = () => {
 const useDeleteFileRequest = () => {
     const refetchClient: QueryClient = useQueryClient();
     const callback = async (id:string) => {
-        return await api.delete(`drive/files/${id}`)
+        return await api.delete<IFileDeleteResponse>(`drive/files/${id}`)
     }
 
     return useMutation({mutationFn: callback, mutationKey: ['createFolder'], onSuccess: () => refetchClient.invalidateQueries({queryKey: ['folders']})})

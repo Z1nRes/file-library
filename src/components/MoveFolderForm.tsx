@@ -1,7 +1,8 @@
 import React, {useState} from 'react';
 import {useEditFolderRequest, useGetFolderRequest} from "../request";
+import {IPropsMoveFolderForm} from "../models/props";
 
-const MoveFolderForm = ({folder, setOpen, parentId, prevFolderId}: any) => {
+const MoveFolderForm: React.FC<IPropsMoveFolderForm> = ({folder, setOpen, parentId, prevFolderId})  => {
     const [moveToId, setMoveToId] = useState<string>();
     const {data} = useGetFolderRequest(parentId);
 

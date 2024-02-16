@@ -1,13 +1,14 @@
-import React, {SyntheticEvent, useState} from 'react';
+import React, {ChangeEvent, SyntheticEvent, useState} from 'react';
 import { useEditFolderRequest} from "../request";
+import {IPropsFormEditFolder} from "../models/props";
 
-const FormEditFolder = ({setOpen, folder}: any) => {
+const FormEditFolder: React.FC<IPropsFormEditFolder> = ({setOpen, folder}) => {
     const [name, setName] = useState<string>(folder.name)
     const [nameDirty, setNameDirty] = useState<boolean>(false);
     const [nameError, setNameError] = useState<string>('Поле "Имя" не может быть пустым!');
     const [changed, setChanged] = useState<boolean>(false);
 
-    const blurHandler = (e: any) => {
+    const blurHandler = (e: React.FocusEvent<HTMLInputElement>) => {
         switch (e.target.name) {
             case "name":
                 setNameDirty(true)
@@ -15,7 +16,7 @@ const FormEditFolder = ({setOpen, folder}: any) => {
         }
     }
 
-    const requiredHandler = (e: any) => {
+    const requiredHandler = (e: ChangeEvent<HTMLInputElement>) => {
         e.target.value.length > 0 ? setNameError('') : setNameError('Поле "Имя" не может быть пустым!');
     }
 

@@ -1,8 +1,14 @@
-export interface IFileResponse {
-    id: string,
-    file: {
-        name: string,
-        filepath: string
-    }
+
+export interface IFileData{
+    "name": string,
+    "filepath": string
 }
-//test
+
+export interface IFileLoadResponse{
+    "id": string,
+    "file": IFileData
+}
+
+export interface IFileDeleteResponse{
+    "message": string
+}

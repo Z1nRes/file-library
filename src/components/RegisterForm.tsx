@@ -1,4 +1,4 @@
-import React, {FC, SyntheticEvent, useState} from 'react';
+import React, {ChangeEvent, ChangeEventHandler, FC, SyntheticEvent, useState} from 'react';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faToggleOff, faToggleOn, IconDefinition} from "@fortawesome/free-solid-svg-icons";
 import {useRegisterRequest} from "../request";
@@ -24,7 +24,7 @@ const RegisterForm: FC = () => {
         }
     }
 
-    const blurHandler = (e: any) => {
+    const blurHandler = (e: React.FocusEvent<HTMLInputElement>) => {
         switch (e.target.name) {
             case "login":
                 setLoginDirty(true)
@@ -35,7 +35,7 @@ const RegisterForm: FC = () => {
         }
     }
 
-    const requiredHandler = (e: any) => {
+    const requiredHandler = (e: ChangeEvent<HTMLInputElement>) => {
         if (e.target.value.length > 0) {
             e.target.name === "login" ? setLoginError('') : setPasswordError('');
         } else {

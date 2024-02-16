@@ -11,9 +11,11 @@ const Table: React.FC<IPropsTable> = ({setRootFolder, setPrevFolder, onChange}) 
 
     useEffect(() => {
         setTimeout(() => {
-            if (data) { setFolderId(data.id)}
+            if (data) {
+                setFolderId(data.id);
+                onChange(data?.id);
+            }
             refetch();
-            onChange(data?.id);
         }, )
     }, [data]);
 

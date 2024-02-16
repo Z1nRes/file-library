@@ -5,8 +5,9 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faPenToSquare, faTrashCan, faArrowsUpDownLeftRight} from "@fortawesome/free-solid-svg-icons";
 import FormEditFolder from "./FormEditFolder";
 import MoveFolderForm from "./MoveFolderForm";
+import {IPropsTableItem} from "../models/props";
 
-const TableItem = ({ folder, setFolderId, parentFolderId, prevFolderId, setPrevFolderId }: any) => {
+const TableItem: React.FC<IPropsTableItem> = ({ folder, setFolderId, parentFolderId, prevFolderId, setPrevFolderId }) => {
     const [openDelete, setOpenDelete] = useState<boolean>(false);
     const [openEdit, setOpenEdit] = useState<boolean>(false);
     const [openMove, setOpenMove] = useState<boolean>(false);
@@ -24,7 +25,7 @@ const TableItem = ({ folder, setFolderId, parentFolderId, prevFolderId, setPrevF
                         }
                     }}
 
-                >{folder.type === "folder" ? folder.name : folder.file.name}</div>
+                >{folder.type === "folder" ? folder.name : folder.file?.name}</div>
                 <div className="col-start-5">{folder.type}</div>
                 <div className="col-start-6 flex justify-end">
                     {
@@ -57,7 +58,7 @@ const TableItem = ({ folder, setFolderId, parentFolderId, prevFolderId, setPrevF
                 <FormEditFolder folder={folder} setOpen={setOpenEdit} />
             </Modal>
             <Modal open={openMove} onClose={() => setOpenMove(false)}>
-                <MoveFolderForm folder={folder} setOpen={setOpenMove} parendId={parentFolderId} prevFolderId={prevFolderId}/>
+                <MoveFolderForm folder={folder} setOpen={setOpenMove} parentId={parentFolderId} prevFolderId={prevFolderId}/>
             </Modal>
         </>
     );

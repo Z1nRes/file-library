@@ -1,11 +1,12 @@
 import React, {SyntheticEvent, useState} from 'react';
 import {useLoadFileRequest} from "../request";
+import {IPropsFileUploadForm} from "../models/props";
 
-const FileUploadForm = ({loadedFile, setOpen, setLoaded, parentFolderId}: any) => {
+const FileUploadForm: React.FC<IPropsFileUploadForm> = ({loadedFile, setOpen, setLoaded, parentFolderId}) => {
     const [fileName, setFileName] = useState<string>('');
     const [file, setFile] = useState<File>();
 
-    const handleFileSelected = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    const handleFileSelected = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files) {
             setFile(e.target?.files[0])
             setFileName(e.target?.files[0]?.name);

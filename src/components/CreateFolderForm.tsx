@@ -1,12 +1,13 @@
-import React, {SyntheticEvent, useState} from 'react';
+import React, {ChangeEvent, SyntheticEvent, useState} from 'react';
 import {useCreateFolderRequest} from "../request";
+import {IPropsCreateFolderForm} from "../models/props";
 
-const CreateFolderForm = ({created, setCreated, setOpen, parentFolderId}: any) => {
+const CreateFolderForm: React.FC<IPropsCreateFolderForm> = ({created, setCreated, setOpen, parentFolderId}) => {
     const [name, setName] = useState<string>('');
     const [nameDirty, setNameDirty] = useState<boolean>(false);
     const [nameError, setNameError] = useState<string>('Поле "Имя" не может быть пустым!');
 
-    const blurHandler = (e: any) => {
+    const blurHandler = (e: React.FocusEvent<HTMLInputElement>) => {
         switch (e.target.name) {
             case "name":
                 setNameDirty(true)
@@ -14,7 +15,7 @@ const CreateFolderForm = ({created, setCreated, setOpen, parentFolderId}: any) =
         }
     }
 
-    const requiredHandler = (e: any) => {
+    const requiredHandler = (e: ChangeEvent<HTMLInputElement>) => {
         e.target.value.length > 0 ? setNameError('') : setNameError('Поле "Имя" не может быть пустым!');
     }
 
